@@ -1,0 +1,155 @@
+#:import math.ceil math
+
+BoxLayout:
+    orientation:'vertical'
+
+    MDToolbar:
+        title: 'Osobní databáze'
+        md_bg_color: .8, .2, .2, 1
+        specific_text_color: 1, 1, 1, 1
+
+    MDBottomNavigation:
+        id: navigation
+        panel_color: .8, .8, .4, 1
+
+        MDBottomNavigationItem:
+            name: 'screen 1'
+            text: 'Osobní databáze'
+            icon: 'card-bulleted'
+
+            DatabaseScreen:
+
+
+        MDBottomNavigationItem:
+            name: 'screen 2'
+            text: 'BMI'
+            icon: 'text'
+
+            BMIScreen:
+
+<BMIScreen>:
+    name: 'bmiscreen'
+
+    FloatLayout:
+        canvas:
+            Color:
+                rgba: app.theme_cls.primary_dark
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [10, 10, 10, 10]
+
+        MDLabel:
+            id: result
+            text: 'Výsledek'
+            size_hint: (.5, .1)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+            halign: 'center'
+            font_style: 'H5'
+            canvas.before:
+                Color:
+                    rgba: 0, 0.5, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_x: 0.8
+            size_hint_y: 0.1
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+            height: self.minimum_height
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0.5, 0.5, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                text: 'Váha'
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 0.8
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            MDTextField:
+                id: vaha
+                mode: 'fill'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_x: 0.8
+            size_hint_y: 0.1
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            height: self.minimum_height
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0.5, 0.5, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                text: 'Výška'
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 0.8
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            MDTextField:
+                id: vyska
+                mode: 'fill'
+
+
+        MDRaisedButton:
+            text: "Vypočítej"
+            md_bg_color: 1, 0, 1, 1
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            on_press:
+                print("Stisknuto")
+                root.ids.result.text = str(int(root.ids.vaha.text) / (int(root.ids.vyska.text) / 100) ** 2)
+
+<BMIScreen>
+    name:'databasescreen'
+
+
+<PersonContent>:
+    orientation: 'vertical'
+    size_hint_x: 1
+    size_hint_y: None
+    height: "100dp"
+
+    MDTextField:
+        id: person_name
+        text: 'jméno osoby'
+        pos_hint: {'center_x': .5, 'center_y': .9}
+
+    MDDropDownItem:
+        id: state_item
+        pos_hint: {'center_x': .5, 'center_y': .7}
+        size_hint_x: 1
+        text: 'Stát'
+        on_release: self.parent.menu_states.open()
+
+<StateContent>:
+    orientation: 'vertical'
+    size_hint_x: 1
+    size_hint_y: None
+    height: "100dp"
+
+    MDTextField:
+        id: state_short_name
+        text: 'Zkratka státu'
+        pos_hint: {'center_x': .5, 'center_y': .9}
+
+    MDTextField:
+        id: state_full_name
+        text: 'Celý název státu'
+        pos_hint: {'center_x': .5, 'center_y': .7}
